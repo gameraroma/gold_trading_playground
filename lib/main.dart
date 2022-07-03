@@ -21,12 +21,12 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
         textTheme: const TextTheme(
-          titleLarge: TextStyle(fontSize: 48.0, fontWeight: FontWeight.bold, color: Color(0x00999999)),
-          titleMedium: TextStyle(fontSize: 36.0, fontWeight: FontWeight.bold, color: Color(0x00999999)),
-          titleSmall: TextStyle(fontSize: 24.0, color: Color(0x00444444)),
+          titleLarge: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold, color: Colors.black87),
+          titleMedium: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold, color: Colors.black87),
+          titleSmall: TextStyle(fontSize: 16.0, color: Colors.black54),
         ),
       ),
-      home: const MyHomePage(title: 'Gold Trading Playground'),
+      home: const MyHomePage(title: 'ราคาทอง'),
     );
   }
 }
