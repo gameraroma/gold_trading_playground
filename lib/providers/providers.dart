@@ -4,6 +4,8 @@ import 'package:gold_trading_playground/models/gold_prices.dart';
 import 'package:html/parser.dart';
 import 'package:http/http.dart';
 
+final changeMasterTabProvider = StateProvider((ref) => 0);
+
 final priceTextColorProvider = StateProvider((ref) {
   return Colors.black;
 });
