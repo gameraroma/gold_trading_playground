@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gold_trading_playground/providers/providers.dart';
+import 'package:gold_trading_playground/views/assets_page.dart';
 import 'package:gold_trading_playground/views/my_home_page.dart';
 
 class MasterPage extends ConsumerStatefulWidget {
@@ -13,14 +14,9 @@ class MasterPage extends ConsumerStatefulWidget {
 class _MyStatefulWidgetState extends ConsumerState<MasterPage> {
   String _title = 'ราคาทอง';
   int _selectedIndex = 0;
-  static const TextStyle optionStyle =
-  TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
     MyHomePage(),
-    Text(
-      'My Assets',
-      style: optionStyle,
-    )
+    AssetsPage()
   ];
 
   @override
@@ -54,7 +50,7 @@ class _MyStatefulWidgetState extends ConsumerState<MasterPage> {
             label: 'หน้าหลัก',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.account_box),
+            icon: Icon(Icons.account_balance),
             label: 'ทอง',
           )
         ],

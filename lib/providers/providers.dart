@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gold_trading_playground/models/gold_asset.dart';
 import 'package:gold_trading_playground/models/gold_prices.dart';
 import 'package:html/parser.dart';
 import 'package:http/http.dart';
@@ -32,6 +33,25 @@ final goldPricesProvider = FutureProvider<GoldPrices>((ref) async {
   }
   ref.read(priceTextColorProvider.notifier).state = textColor;
 
-  final goldPrices = GoldPrices(updateDateTime, blSell, blBuy, omSell, omBuy);
+final goldPrices = GoldPrices(updateDateTime, blSell, blBuy, omSell, omBuy);
   return goldPrices;
 });
+
+final goldAssetsProvider = StateNotifierProvider<GoldAssetsNotifier, List<GoldAsset>>((ref) {
+  return GoldAssetsNotifier();
+});
+
+class GoldAssetsNotifier extends StateNotifier<List<GoldAsset>> {
+  GoldAssetsNotifier(): super([]);
+
+  void addAsset(GoldAsset asset) {
+    state = [...state, asset];
+  }
+
+  void removeAsset(String assetId) {
+    state = [
+      for (final asset in state)
+        if (asset.id != assetId) asset,
+    ];
+  }
+}
