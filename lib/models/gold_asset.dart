@@ -26,15 +26,7 @@ class GoldAsset {
   }
 
   String getProfitDisplay(GoldPrices currentPrices) {
-    var currentPrice =
-        type == GoldType.bullion ? currentPrices.blBuy : currentPrices.omBuy;
-    final bahtWeight = unit == GoldUnit.quarterOfBaht ? 0.25 * weight : weight;
-    if (currentPrice == GoldPrices.naText) {
-      return 'คำนวนไม่ได้';
-    }
-    currentPrice = currentPrice.replaceAll(',', '');
-    var price = bahtWeight * double.parse(currentPrice);
-    var profit = price - cost;
+    final profit = getProfit(currentPrices);
     var formatter = NumberFormat('#,000.00');
     var sign = profit > 0 ? '+' : '';
     return '$sign${formatter.format(profit)}';
@@ -65,7 +57,7 @@ class GoldAsset {
 
   double getProfit(GoldPrices currentPrices) {
     var currentPrice =
-        type == GoldType.bullion ? currentPrices.blSell : currentPrices.omSell;
+        type == GoldType.bullion ? currentPrices.blBuy : currentPrices.omBuy;
     final bahtWeight = unit == GoldUnit.quarterOfBaht ? 0.25 * weight : weight;
     if (currentPrice == GoldPrices.naText) {
       return 0;

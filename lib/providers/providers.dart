@@ -84,14 +84,14 @@ class GoldAssetsNotifier extends StateNotifier<List<GoldAsset>> {
   String getUnrealisedSumDisplay(GoldPrices goldPrices) {
     final sum =
         state.map((e) => e.getUnrealised(goldPrices)).reduce((a, b) => a + b);
-    var formatter = NumberFormat('#,000');
+    var formatter = NumberFormat('#,000.00');
     return '${formatter.format(sum)} บาท';
   }
 
   String getProfitSumDisplay(GoldPrices goldPrices) {
     final profit =
         state.map((e) => e.getProfit(goldPrices)).reduce((a, b) => a + b);
-    var formatter = NumberFormat('#,000');
+    var formatter = NumberFormat('#,000.00');
     var sign = profit >= 0 ? 'กำไร' : 'ขาดทุน';
     return '$sign ${formatter.format(profit.abs())} บาท';
   }
