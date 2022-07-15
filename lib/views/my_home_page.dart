@@ -5,28 +5,24 @@ import 'package:gold_trading_playground/providers/providers.dart';
 
 import 'gold_prices_board.dart';
 
-class MyHomePage extends StatefulWidget {
+class MyHomePage extends ConsumerStatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  ConsumerState<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends ConsumerState<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    return Consumer(
-      builder: (context, ref, child) {
-        final config = ref.watch(goldPricesProvider);
-        if (config.isLoading) {
-          return const Center(child: CircularProgressIndicator());
-        }
-        return config.when(
-          data: (goldPrices) => GoldPricesBoard(goldPrices),
-          error: (err, stack) => GoldPricesBoard(GoldPrices.errors()),
-          loading: () => const Center(child: CircularProgressIndicator()),
-        );
-      },
+    final goldPrices = ref.watch(goldPricesProvider);
+    if (goldPrices.isLoading) {
+      return const Center(child: CircularProgressIndicator());
+    }
+    return goldPrices.when(
+      data: (goldPrices) => GoldPricesBoard(goldPrices),
+      error: (err, stack) => GoldPricesBoard(GoldPrices.errors()),
+      loading: () => const Center(child: CircularProgressIndicator()),
     );
   }
 }
