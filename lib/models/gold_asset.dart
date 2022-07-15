@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gold_trading_playground/models/gold_prices.dart';
 import 'package:intl/intl.dart';
 
 enum GoldType {
@@ -22,6 +23,43 @@ class GoldAsset {
   String get costDisplay {
     var formatter = NumberFormat('#,##,000');
     return '${formatter.format(cost)} ฿';
+  }
+
+  String getUnrealisedDisplay(GoldPrices currentPrices) {
+    var currentPrice = type == GoldType.bullion ? currentPrices.blSell : currentPrices.omSell;
+    final bahtWeight = unit == GoldUnit.quarterOfBaht ? 0.25 * weight : weight;
+    if (currentPrice == GoldPrices.naText) {
+      return 'คำนวนไม่ได้';
+    }
+    currentPrice = currentPrice.replaceAll(',', '');
+    var price = bahtWeight * double.parse(currentPrice);
+    var formatter = NumberFormat('#,###,000');
+    return '${formatter.format(price)} ฿';
+  }
+
+  String getProfitDisplay(GoldPrices currentPrices) {
+    var currentPrice = type == GoldType.bullion ? currentPrices.blSell : currentPrices.omSell;
+    final bahtWeight = unit == GoldUnit.quarterOfBaht ? 0.25 * weight : weight;
+    if (currentPrice == GoldPrices.naText) {
+      return 'คำนวนไม่ได้';
+    }
+    currentPrice = currentPrice.replaceAll(',', '');
+    var price = bahtWeight * double.parse(currentPrice);
+    var profit = price - cost;
+    var formatter = NumberFormat('#,###,000');
+    return '${formatter.format(profit)} ฿';
+  }
+
+  double getProfit(GoldPrices currentPrices) {
+    var currentPrice = type == GoldType.bullion ? currentPrices.blSell : currentPrices.omSell;
+    final bahtWeight = unit == GoldUnit.quarterOfBaht ? 0.25 * weight : weight;
+    if (currentPrice == GoldPrices.naText) {
+      return 0;
+    }
+    currentPrice = currentPrice.replaceAll(',', '');
+    var price = bahtWeight * double.parse(currentPrice);
+    var profit = price - cost;
+    return profit;
   }
 
   GoldAsset(this.id, this.name, this.type, this.cost, this.weight, this.unit);
