@@ -20,14 +20,7 @@ class GoldAsset {
   }
 
   String getUnrealisedDisplay(GoldPrices currentPrices) {
-    var currentPrice =
-        type == GoldType.bullion ? currentPrices.blBuy : currentPrices.omBuy;
-    final bahtWeight = unit == GoldUnit.quarterOfBaht ? 0.25 * weight : weight;
-    if (currentPrice == GoldPrices.naText) {
-      return 'คำนวนไม่ได้';
-    }
-    currentPrice = currentPrice.replaceAll(',', '');
-    var price = bahtWeight * double.parse(currentPrice);
+    var price = getUnrealised(currentPrices);
     var formatter = NumberFormat('#,000.00');
     return formatter.format(price);
   }
@@ -56,6 +49,18 @@ class GoldAsset {
     } else {
       return Colors.black;
     }
+  }
+
+  double getUnrealised(GoldPrices currentPrices) {
+    var currentPrice =
+    type == GoldType.bullion ? currentPrices.blBuy : currentPrices.omBuy;
+    final bahtWeight = unit == GoldUnit.quarterOfBaht ? 0.25 * weight : weight;
+    if (currentPrice == GoldPrices.naText) {
+      return 0;
+    }
+    currentPrice = currentPrice.replaceAll(',', '');
+    var price = bahtWeight * double.parse(currentPrice);
+    return price;
   }
 
   double getProfit(GoldPrices currentPrices) {
