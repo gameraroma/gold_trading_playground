@@ -40,12 +40,8 @@ class _AssetsPageState extends ConsumerState<AssetsPage> {
                 padding: const EdgeInsets.all(16),
                 child: Row(
                   children: [
+                    Icon(typeIcon),
                     Expanded(
-                      flex: 1,
-                      child: Icon(typeIcon),
-                    ),
-                    Expanded(
-                      flex: 5,
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
                             vertical: 0, horizontal: 12),
@@ -64,29 +60,26 @@ class _AssetsPageState extends ConsumerState<AssetsPage> {
                         ),
                       ),
                     ),
-                    Expanded(
-                      flex: 4,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Text(
-                            asset.getUnrealisedDisplay(goldPrices),
-                            style: const TextStyle(fontSize: 18),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Text(
+                          asset.getUnrealisedDisplay(goldPrices),
+                          style: const TextStyle(fontSize: 18),
+                        ),
+                        const SizedBox(
+                          width: 0,
+                          height: 8,
+                        ),
+                        Text(
+                          asset.getProfitDisplay(goldPrices),
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                            color: asset.getProfitTextColor(goldPrices),
                           ),
-                          const SizedBox(
-                            width: 0,
-                            height: 8,
-                          ),
-                          Text(
-                            asset.getProfitDisplay(goldPrices),
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 14,
-                              color: asset.getProfitTextColor(goldPrices),
-                            ),
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
