@@ -105,7 +105,7 @@ class _AssetsPageState extends ConsumerState<AssetsPage> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.symmetric(
-                      vertical: 8,
+                      vertical: 0,
                       horizontal: 16,
                     ),
                     child: Row(
@@ -115,14 +115,24 @@ class _AssetsPageState extends ConsumerState<AssetsPage> {
                           style: Theme.of(context).textTheme.titleMedium,
                         ),
                         const Spacer(),
-                        TextButton(
+                        OutlinedButton(
+                          style: OutlinedButton.styleFrom(
+                            side: const BorderSide(
+                                color: Colors.deepOrangeAccent),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(18.0),
+                            ),
+                          ),
                           onPressed: () {},
                           child: Text(
                             '+ เพิ่มทอง',
                             style: Theme.of(context)
                                 .textTheme
                                 .titleMedium
-                                ?.copyWith(color: Colors.deepOrangeAccent),
+                                ?.copyWith(
+                                  color: Colors.deepOrangeAccent,
+                                  fontSize: 16,
+                                ),
                           ),
                         ),
                       ],

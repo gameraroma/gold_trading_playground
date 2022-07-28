@@ -44,7 +44,8 @@ class AssetsListView extends StatelessWidget {
                           Text(asset.name,
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
-                              style: Theme.of(context).textTheme.titleMedium),
+                              style:
+                              Theme.of(context).textTheme.titleMedium),
                           Text(
                             '${asset.weight} $unit',
                             style: Theme.of(context).textTheme.titleSmall,
