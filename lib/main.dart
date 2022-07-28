@@ -19,9 +19,16 @@ class MyApp extends StatelessWidget {
       title: 'Gold Trading',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        splashColor: Colors.orangeAccent,
         textTheme: const TextTheme(
-          titleLarge: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold, color: Colors.black87),
-          titleMedium: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold, color: Colors.black87),
+          titleLarge: TextStyle(
+              fontSize: 24.0,
+              fontWeight: FontWeight.bold,
+              color: Colors.black87),
+          titleMedium: TextStyle(
+              fontSize: 20.0,
+              fontWeight: FontWeight.bold,
+              color: Colors.black87),
           titleSmall: TextStyle(fontSize: 16.0, color: Colors.black54),
         ),
       ),
@@ -29,4 +36,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-

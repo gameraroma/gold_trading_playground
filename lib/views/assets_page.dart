@@ -69,25 +69,23 @@ class _AssetsPageState extends ConsumerState<AssetsPage> {
                               ?.copyWith(fontWeight: FontWeight.normal),
                         ),
                         const SizedBox(height: 8),
-                        Card(
+                        MaterialButton(
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30.0),
                           ),
                           color: Colors.deepOrangeAccent,
-                          child: MaterialButton(
-                            onPressed: () {},
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                vertical: 8,
-                                horizontal: 16,
-                              ),
-                              child: Text(
-                                '+ เพิ่มเลย',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .titleMedium
-                                    ?.copyWith(color: Colors.white),
-                              ),
+                          onPressed: () {},
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 8,
+                              horizontal: 16,
+                            ),
+                            child: Text(
+                              '+ เพิ่มเลย',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleMedium
+                                  ?.copyWith(color: Colors.white),
                             ),
                           ),
                         ),
@@ -122,6 +120,7 @@ class _AssetsPageState extends ConsumerState<AssetsPage> {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(18.0),
                             ),
+                            primary: Theme.of(context).splashColor
                           ),
                           onPressed: () {},
                           child: Text(
