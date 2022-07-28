@@ -1,4 +1,3 @@
-import 'package:favicon/favicon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gold_trading_playground/models/gold_asset.dart';

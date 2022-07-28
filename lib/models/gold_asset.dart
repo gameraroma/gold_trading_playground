@@ -6,7 +6,7 @@ enum GoldType {
   bullion,
   ornament;
 
-  String value() {
+  String get value {
     switch (this) {
       case GoldType.bullion:
         return 'bullion';
@@ -31,7 +31,7 @@ enum GoldUnit {
   baht,
   quarterOfBaht;
 
-  String value() {
+  String get value {
     switch (this) {
       case GoldUnit.baht:
         return 'baht';
@@ -138,9 +138,9 @@ class GoldAsset {
   Map<String, dynamic> toJson() => {
         'id': id,
         'name': name,
-        'type': type.value(),
+        'type': type.value,
         'cost': cost,
         'weight': weight,
-        'unit': unit.value(),
+        'unit': unit.value,
       };
 }
