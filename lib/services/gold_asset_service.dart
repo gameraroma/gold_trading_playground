@@ -20,9 +20,7 @@ class GoldAssetService {
   Future<List<GoldAsset>> readAssets() async {
     try {
       final file = await _localFile;
-
-      await Future.delayed(const Duration(seconds: 1));
-      return [
+      final data = [
         GoldAsset.createNew("ทองแท่งร้านฮั่วเซ่งเฮง", GoldType.bullion,
             160000, 5, GoldUnit.baht),
         GoldAsset.createNew(
@@ -35,7 +33,9 @@ class GoldAssetService {
             "ลาย 4 เสา", GoldType.ornament, 82500, 3, GoldUnit.baht),
       ];
 
-      final String contents = await file.readAsString();
+      // final String contents = await file.readAsString();
+
+      final String contents = jsonEncode(data);
       if (contents.isEmpty) {
         return <GoldAsset>[];
       }

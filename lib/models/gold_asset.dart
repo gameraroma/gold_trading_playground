@@ -2,9 +2,55 @@ import 'package:flutter/material.dart';
 import 'package:gold_trading_playground/models/gold_prices.dart';
 import 'package:intl/intl.dart';
 
-enum GoldType { bullion, ornament }
+enum GoldType {
+  bullion,
+  ornament;
 
-enum GoldUnit { baht, quarterOfBaht }
+  String value() {
+    switch (this) {
+      case GoldType.bullion:
+        return 'bullion';
+      case GoldType.ornament:
+        return 'ornament';
+    }
+  }
+
+  static GoldType parse(String value) {
+    switch (value) {
+      case 'bullion':
+        return GoldType.bullion;
+      case 'ornament':
+        return GoldType.ornament;
+      default:
+        return GoldType.bullion;
+    }
+  }
+}
+
+enum GoldUnit {
+  baht,
+  quarterOfBaht;
+
+  String value() {
+    switch (this) {
+      case GoldUnit.baht:
+        return 'baht';
+      case GoldUnit.quarterOfBaht:
+        return 'quarterOfBaht';
+    }
+  }
+
+  static GoldUnit parse(String value) {
+    switch (value) {
+      case 'baht':
+        return GoldUnit.baht;
+      case 'quarterOfBaht':
+        return GoldUnit.quarterOfBaht;
+      default:
+        return GoldUnit.baht;
+    }
+  }
+}
 
 class GoldAsset {
   final String id;
@@ -78,17 +124,17 @@ class GoldAsset {
   GoldAsset.fromJson(Map<String, dynamic> json)
       : id = json['id'],
         name = json['name'],
-        type = json['type'],
+        type = GoldType.parse(json['type'].toString()),
         cost = json['cost'],
         weight = json['weight'],
-        unit = json['unit'];
+        unit = GoldUnit.parse(json['unit'].toString());
 
   Map<String, dynamic> toJson() => {
         'id': id,
         'name': name,
-        'type': type,
+        'type': type.value(),
         'cost': cost,
         'weight': weight,
-        'unit': unit,
+        'unit': unit.value(),
       };
 }
