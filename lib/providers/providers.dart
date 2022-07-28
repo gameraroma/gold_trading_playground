@@ -95,7 +95,7 @@ final headerAssetsProvider = Provider<AsyncValue<HeaderAsset>>((ref) {
 
   final String unrealisedSum;
   if (goldAssets.isEmpty) {
-    unrealisedSum = '0 บาท';
+    unrealisedSum = '';
   } else {
     final sum = goldAssets
         .map((e) => e.getUnrealised(goldPricesValue))
@@ -106,7 +106,7 @@ final headerAssetsProvider = Provider<AsyncValue<HeaderAsset>>((ref) {
 
   final String profitSum;
   if (goldAssets.isEmpty) {
-    profitSum = 'ไม่มีข้อมูล';
+    profitSum = '';
   } else {
     final profit =
         goldAssets.map((e) => e.getProfit(goldPricesValue)).reduce((a, b) => a + b);

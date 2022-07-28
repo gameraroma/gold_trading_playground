@@ -35,28 +35,52 @@ class AssetsHeaderCard extends ConsumerWidget {
                         child: Text(
                           headerAssets.updateDateTime,
                           textAlign: TextAlign.end,
-                          style: Theme.of(context).textTheme.subtitle2?.copyWith(
-                            fontWeight: FontWeight.normal,
-                            fontSize: 12,
-                          ),
+                          style:
+                              Theme.of(context).textTheme.subtitle2?.copyWith(
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: 12,
+                                  ),
                         ),
                       ),
                     ],
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    headerAssets.unrealisedSum,
-                    style: Theme.of(context).textTheme.titleLarge,
+                Visibility(
+                  visible: !headerAssets.hasData,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      'ไม่มีข้อมูล',
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                          color: Colors.black54,
+                          fontWeight: FontWeight.normal,
+                          fontStyle: FontStyle.italic),
+                    ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    headerAssets.profitSum,
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        color: headerAssets.profitSumColor),
+                Visibility(
+                  visible: headerAssets.hasData,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          headerAssets.unrealisedSum,
+                          style: Theme.of(context).textTheme.titleLarge,
+                        ),
+                        const SizedBox(
+                          height: 16,
+                        ),
+                        Text(
+                          headerAssets.profitSum,
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleMedium
+                              ?.copyWith(color: headerAssets.profitSumColor),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],
