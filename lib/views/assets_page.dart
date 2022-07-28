@@ -39,8 +39,10 @@ class _AssetsPageState extends ConsumerState<AssetsPage> {
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             tileMode: TileMode.clamp,
+            stops: [0, 0.275, 1],
             colors: [
               Colors.black12,
+              Colors.white,
               Colors.white,
             ],
           ),
@@ -54,41 +56,38 @@ class _AssetsPageState extends ConsumerState<AssetsPage> {
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
                 child: SizedBox(
-                  height: 200,
+                  height: 250,
                   width: MediaQuery.of(context).size.width,
                   child: Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'ยังไม่มีข้อมูล',
+                          'ยังไม่มีทอง',
                           style: Theme.of(context)
                               .textTheme
                               .titleMedium
                               ?.copyWith(fontWeight: FontWeight.normal),
                         ),
                         const SizedBox(height: 8),
-                        MaterialButton(
-                          onPressed: () {},
-                          child: Card(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30.0),
-                            ),
-                            color: Colors.blueAccent,
+                        Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30.0),
+                          ),
+                          color: Colors.deepOrangeAccent,
+                          child: MaterialButton(
+                            onPressed: () {},
                             child: Padding(
                               padding: const EdgeInsets.symmetric(
                                 vertical: 8,
                                 horizontal: 16,
                               ),
                               child: Text(
-                                '+ เพิ่มทอง',
+                                '+ เพิ่มเลย',
                                 style: Theme.of(context)
                                     .textTheme
                                     .titleMedium
-                                    ?.copyWith(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.normal
-                                ),
+                                    ?.copyWith(color: Colors.white),
                               ),
                             ),
                           ),
@@ -110,9 +109,24 @@ class _AssetsPageState extends ConsumerState<AssetsPage> {
                       vertical: 8,
                       horizontal: 16,
                     ),
-                    child: Text(
-                      'ทองที่มี (${assets.length} ชิ้น)',
-                      style: Theme.of(context).textTheme.titleMedium,
+                    child: Row(
+                      children: [
+                        Text(
+                          'ทองที่มี (${assets.length} ชิ้น)',
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                        const Spacer(),
+                        TextButton(
+                          onPressed: () {},
+                          child: Text(
+                            '+ เพิ่มทอง',
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleMedium
+                                ?.copyWith(color: Colors.deepOrangeAccent),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                   AssetsListView(
