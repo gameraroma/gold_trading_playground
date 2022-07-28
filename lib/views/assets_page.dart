@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gold_trading_playground/models/gold_asset.dart';
-import 'package:gold_trading_playground/models/gold_prices.dart';
 import 'package:gold_trading_playground/providers/providers.dart';
+import 'package:gold_trading_playground/services/gold_asset_service.dart';
 import 'package:gold_trading_playground/views/assets_header_card.dart';
 import 'package:gold_trading_playground/views/assets_list_view.dart';
 
@@ -15,6 +15,12 @@ class AssetsPage extends ConsumerStatefulWidget {
 
 class _AssetsPageState extends ConsumerState<AssetsPage> {
   List<GoldAsset> assets = [];
+
+  @override
+  initState() {
+    super.initState();
+    ref.read(goldAssetsProvider.notifier).loadAssets();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,10 +36,7 @@ class _AssetsPageState extends ConsumerState<AssetsPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            AssetsHeaderCard(
-              goldAssetsNotifier: goldAssetsNotifier,
-              goldPrices: goldPrices,
-            ),
+            const AssetsHeaderCard(),
             Padding(
               padding: const EdgeInsets.symmetric(
                 vertical: 8,

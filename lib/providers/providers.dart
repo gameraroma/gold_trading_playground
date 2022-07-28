@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gold_trading_playground/models/gold_asset.dart';
 import 'package:gold_trading_playground/models/gold_prices.dart';
+import 'package:gold_trading_playground/models/header_assets.dart';
+import 'package:gold_trading_playground/services/gold_asset_service.dart';
 import 'package:html/parser.dart';
 import 'package:http/http.dart';
 import 'package:intl/intl.dart';
@@ -13,8 +15,8 @@ final priceTextColorProvider = StateProvider((ref) {
 });
 
 final goldPricesProvider = FutureProvider<GoldPrices>((ref) async {
-  final response =
-      await Client().get(Uri.parse('https://www.goldtraders.or.th'));
+  final response = await Client()
+      .get(Uri.parse('https://www.goldtraders.or.th/default.aspx'));
   var document = parse(response.body);
   final updateDateTime = document
       .querySelectorAll('#DetailPlace_uc_goldprices1_lblAsTime')[0]
@@ -54,21 +56,16 @@ final goldAssetsProvider =
 });
 
 class GoldAssetsNotifier extends StateNotifier<List<GoldAsset>> {
-  GoldAssetsNotifier()
-      : super([
-          GoldAsset.createNew("ทองแท่งร้านฮั่วเซ่งเฮง", GoldType.bullion,
-              160000, 5, GoldUnit.baht),
-          GoldAsset.createNew(
-              "ลายมังกร", GoldType.ornament, 81000, 3, GoldUnit.baht),
-          GoldAsset.createNew("แหวนเกลี้ยง", GoldType.ornament, 14000, 2,
-              GoldUnit.quarterOfBaht),
-          GoldAsset.createNew("ทองแท่งร้านแถวบ้าน", GoldType.bullion,
-              69000, 2, GoldUnit.baht),
-          GoldAsset.createNew(
-              "ลาย 4 เสา", GoldType.ornament, 82500, 3, GoldUnit.baht),
-        ]);
+  GoldAssetsNotifier() : super([]);
+  var isLoaded = false;
 
   List<GoldAsset> get assets => state;
+
+  void loadAssets() async {
+    final assets = await GoldAssetService().readAssets();
+    isLoaded = true;
+    state = assets;
+  }
 
   void addAsset(GoldAsset asset) {
     state = [...state, asset];
@@ -80,31 +77,60 @@ class GoldAssetsNotifier extends StateNotifier<List<GoldAsset>> {
         if (asset.id != assetId) asset,
     ];
   }
+}
 
-  String getUnrealisedSumDisplay(GoldPrices goldPrices) {
-    final sum =
-        state.map((e) => e.getUnrealised(goldPrices)).reduce((a, b) => a + b);
-    var formatter = NumberFormat('#,000.00');
-    return '${formatter.format(sum)} บาท';
+final headerAssetsProvider = Provider<AsyncValue<HeaderAsset>>((ref) {
+  final goldPrices = ref.watch(goldPricesProvider);
+  final goldAssets = ref.watch(goldAssetsProvider);
+  final isGoldAssetsLoaded = ref.read(goldAssetsProvider.notifier).isLoaded;
+
+  if (goldPrices.hasError) {
+    return AsyncValue.error(goldPrices);
   }
 
-  String getProfitSumDisplay(GoldPrices goldPrices) {
+  final goldPricesValue = goldPrices.value;
+  if (goldPrices.isLoading || !isGoldAssetsLoaded || goldPricesValue == null) {
+    return const AsyncValue.loading();
+  }
+
+  final String unrealisedSum;
+  if (goldAssets.isEmpty) {
+    unrealisedSum = '0 บาท';
+  } else {
+    final sum = goldAssets
+        .map((e) => e.getUnrealised(goldPricesValue))
+        .reduce((a, b) => a + b);
+    var formatter = NumberFormat('#,000.00');
+    unrealisedSum = '${formatter.format(sum)} บาท';
+  }
+
+  final String profitSum;
+  if (goldAssets.isEmpty) {
+    profitSum = 'ไม่มีข้อมูล';
+  } else {
     final profit =
-        state.map((e) => e.getProfit(goldPrices)).reduce((a, b) => a + b);
+        goldAssets.map((e) => e.getProfit(goldPricesValue)).reduce((a, b) => a + b);
     var formatter = NumberFormat('#,000.00');
     var sign = profit >= 0 ? 'กำไร' : 'ขาดทุน';
-    return '$sign ${formatter.format(profit.abs())} บาท';
+    profitSum = '$sign ${formatter.format(profit.abs())} บาท';
   }
 
-  Color getProfitTextColor(GoldPrices goldPrices) {
+  final Color profitTextColor;
+  if (goldAssets.isEmpty) {
+    profitTextColor = Colors.black;
+  } else {
     final profit =
-        state.map((e) => e.getProfit(goldPrices)).reduce((a, b) => a + b);
+        goldAssets.map((e) => e.getProfit(goldPricesValue)).reduce((a, b) => a + b);
     if (profit > 0) {
-      return Colors.green;
+      profitTextColor = Colors.green;
     } else if (profit < 0) {
-      return Colors.red;
+      profitTextColor = Colors.red;
     } else {
-      return Colors.black;
+      profitTextColor = Colors.black;
     }
   }
-}
+
+  final headerAsset = HeaderAsset(
+      goldPricesValue.updateDateTime, unrealisedSum, profitSum, profitTextColor);
+  return AsyncValue.data(headerAsset);
+});

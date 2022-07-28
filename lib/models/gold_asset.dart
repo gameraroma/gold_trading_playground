@@ -45,7 +45,7 @@ class GoldAsset {
 
   double getUnrealised(GoldPrices currentPrices) {
     var currentPrice =
-    type == GoldType.bullion ? currentPrices.blBuy : currentPrices.omBuy;
+        type == GoldType.bullion ? currentPrices.blBuy : currentPrices.omBuy;
     final bahtWeight = unit == GoldUnit.quarterOfBaht ? 0.25 * weight : weight;
     if (currentPrice == GoldPrices.naText) {
       return 0;
@@ -74,4 +74,21 @@ class GoldAsset {
       String name, GoldType type, double cost, int weight, GoldUnit unit) {
     return GoldAsset(UniqueKey().toString(), name, type, cost, weight, unit);
   }
+
+  GoldAsset.fromJson(Map<String, dynamic> json)
+      : id = json['id'],
+        name = json['name'],
+        type = json['type'],
+        cost = json['cost'],
+        weight = json['weight'],
+        unit = json['unit'];
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'name': name,
+        'type': type,
+        'cost': cost,
+        'weight': weight,
+        'unit': unit,
+      };
 }
