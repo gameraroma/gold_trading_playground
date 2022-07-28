@@ -56,4 +56,12 @@ class GoldAssetService {
     final contents = jsonEncode(assets);
     return file.writeAsString(contents);
   }
+
+  Future<File> deleteAsset(GoldAsset asset) async {
+    final file = await _localFile;
+    List<GoldAsset> assets = await readAssets();
+    assets = [for (final i in assets) if (i.id != asset.id) i];
+    final contents = jsonEncode(assets);
+    return file.writeAsString(contents);
+  }
 }
