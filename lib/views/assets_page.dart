@@ -33,29 +33,42 @@ class _AssetsPageState extends ConsumerState<AssetsPage> {
     final isEmpty = assets.isEmpty;
     final hasData = assets.isNotEmpty;
     return goldPricesFuture.when(
-      data: (goldPrices) => ListView(
-        children: [
-          const AssetsHeaderCard(),
-          Visibility(
-            visible: isEmpty,
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-              child: SizedBox(
-                height: 200,
-                width: MediaQuery.of(context).size.width,
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'ยังไม่มีข้อมูล',
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleMedium
-                            ?.copyWith(fontWeight: FontWeight.normal),
-                      ),
-                      const SizedBox(height: 8),
-                      MaterialButton(
+      data: (goldPrices) => Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            tileMode: TileMode.clamp,
+            colors: [
+              Colors.black12,
+              Colors.white,
+            ],
+          ),
+        ),
+        width: double.infinity,
+        child: ListView(
+          children: [
+            const AssetsHeaderCard(),
+            Visibility(
+              visible: isEmpty,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                child: SizedBox(
+                  height: 200,
+                  width: MediaQuery.of(context).size.width,
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'ยังไม่มีข้อมูล',
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleMedium
+                              ?.copyWith(fontWeight: FontWeight.normal),
+                        ),
+                        const SizedBox(height: 8),
+                        MaterialButton(
                           onPressed: () {},
                           child: Card(
                             shape: RoundedRectangleBorder(
@@ -74,17 +87,19 @@ class _AssetsPageState extends ConsumerState<AssetsPage> {
                                     .titleMedium
                                     ?.copyWith(
                                         color: Colors.white,
-                                        fontWeight: FontWeight.normal),
+                                        fontWeight: FontWeight.normal
+                                ),
                               ),
                             ),
-                          ))
-                    ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-          Visibility(
+            Visibility(
               visible: hasData,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -113,9 +128,10 @@ class _AssetsPageState extends ConsumerState<AssetsPage> {
                     ),
                   ),
                 ],
-              )
-          )
-        ],
+              ),
+            ),
+          ],
+        ),
       ),
       error: (err, stack) => const Text('ไม่สามารถดึงข้อมูลได้'),
       loading: () => const Center(child: CircularProgressIndicator()),

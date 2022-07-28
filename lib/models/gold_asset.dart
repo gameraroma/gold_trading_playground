@@ -66,12 +66,18 @@ class GoldAsset {
   }
 
   String getUnrealisedDisplay(GoldPrices currentPrices) {
+    if (currentPrices.isError) {
+      return '';
+    }
     var price = getUnrealised(currentPrices);
     var formatter = NumberFormat('#,000.00');
     return formatter.format(price);
   }
 
   String getProfitDisplay(GoldPrices currentPrices) {
+    if (currentPrices.isError) {
+      return '';
+    }
     final profit = getProfit(currentPrices);
     var formatter = NumberFormat('#,000.00');
     var sign = profit > 0 ? '+' : '';

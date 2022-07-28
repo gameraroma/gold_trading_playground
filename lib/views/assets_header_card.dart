@@ -14,6 +14,9 @@ class AssetsHeaderCard extends ConsumerWidget {
       data: (headerAssets) => Padding(
         padding: const EdgeInsets.all(8.0),
         child: Card(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16.0),
+          ),
           child: Padding(
             padding: const EdgeInsets.all(8),
             child: Column(
@@ -88,7 +91,17 @@ class AssetsHeaderCard extends ConsumerWidget {
           ),
         ),
       ),
-      error: (err, stack) => const Text('ไม่สามารถดึงข้อมูลได้'),
+      error: (err, stack) => const Padding(
+        padding: EdgeInsets.all(8.0),
+        child: Card(
+          child: Center(
+            child: Padding(
+              padding: EdgeInsets.all(24.0),
+              child: Text('ไม่สามารถดึงข้อมูลได้'),
+            ),
+          )
+        ),
+      ),
       loading: () => const Center(child: CircularProgressIndicator()),
     );
   }

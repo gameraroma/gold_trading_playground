@@ -7,6 +7,8 @@ class GoldPrices {
   String omSell;
   String omBuy;
 
+  bool get isError => updateDateTime == naText;
+
   GoldPrices(this.updateDateTime, this.blSell, this.blBuy, this.omSell, this.omBuy);
 
   factory GoldPrices.errors() {

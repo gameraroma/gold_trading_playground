@@ -30,7 +30,10 @@ class AssetsListView extends StatelessWidget {
               padding: const EdgeInsets.all(16),
               child: Row(
                 children: [
-                  Icon(typeIcon),
+                  Icon(
+                    typeIcon,
+                    color: Colors.black54,
+                  ),
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
@@ -53,20 +56,33 @@ class AssetsListView extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      Text(
-                        asset.getUnrealisedDisplay(goldPrices),
-                        style: const TextStyle(fontSize: 18),
+                      Visibility(
+                        visible: !goldPrices.isError,
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 4),
+                          child: Text(
+                            asset.getUnrealisedDisplay(goldPrices),
+                            style: const TextStyle(fontSize: 18),
+                          ),
+                        ),
                       ),
-                      const SizedBox(
-                        width: 0,
-                        height: 8,
+                      Visibility(
+                        visible: goldPrices.isError,
+                        child: const Icon(Icons.question_mark,
+                            size: 24, color: Colors.black54),
                       ),
-                      Text(
-                        asset.getProfitDisplay(goldPrices),
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14,
-                          color: asset.getProfitTextColor(goldPrices),
+                      Visibility(
+                        visible: !goldPrices.isError,
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 4),
+                          child: Text(
+                            asset.getProfitDisplay(goldPrices),
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,
+                              color: asset.getProfitTextColor(goldPrices),
+                            ),
+                          ),
                         ),
                       ),
                     ],

@@ -18,6 +18,9 @@ final goldPricesProvider = FutureProvider<GoldPrices>((ref) async {
   final response = await Client()
       .get(Uri.parse('https://www.goldtraders.or.th/default.aspx'));
   var document = parse(response.body);
+  if (document.querySelectorAll('#DetailPlace_uc_goldprices1_lblAsTime').isEmpty) {
+    return GoldPrices.errors();
+  }
   final updateDateTime = document
       .querySelectorAll('#DetailPlace_uc_goldprices1_lblAsTime')[0]
       .text;
@@ -91,6 +94,10 @@ final headerAssetsProvider = Provider<AsyncValue<HeaderAsset>>((ref) {
   final goldPricesValue = goldPrices.value;
   if (goldPrices.isLoading || !isGoldAssetsLoaded || goldPricesValue == null) {
     return const AsyncValue.loading();
+  }
+
+  if (goldPricesValue.isError) {
+    return AsyncValue.error(goldPrices);
   }
 
   final String unrealisedSum;
